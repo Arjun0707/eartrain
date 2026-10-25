@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f1e9">
+<title>C major · Press & hold ear trainer</title>
+<style>
+  :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #282723; background: #f5f1e9; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: max(24px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); }
+  main { max-width: 760px; margin: auto; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .16em; font-size: 11px; font-weight: 750; margin: 0 0 10px; color: #6a655b; }
+  h1 { font-size: clamp(30px, 6vw, 44px); letter-spacing: -.04em; margin: 0 0 10px; }
+  .intro { line-height: 1.5; margin: 0 0 20px; color: #5c584f; }
+  .audio-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 0 0 22px; }
+  #enable { border: 0; background: #292925; color: white; font: inherit; font-weight: 650; padding: 13px 18px; border-radius: 12px; min-height: 48px; cursor: pointer; }
+  #status { flex: 1; min-width: 160px; font-size: 13px; line-height: 1.5; color: #5c584f; }
+  .section-label { margin: 22px 0 10px; font-size: 12px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; color: #6a655b; }
+  .notes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .note { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 5px; min-height: 132px; width: 100%; padding: 18px; border: 2px solid #282723; border-radius: 18px; background: var(--color); color: var(--ink, #201e19); font: inherit; text-align: left; box-shadow: 0 5px 0 #282723; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+  .note .solfege { font-size: 30px; font-weight: 780; letter-spacing: -.03em; }
+  .note .pitch { font-size: 14px; font-weight: 600; }
+  .note .hint { font-size: 11px; font-weight: 650; opacity: .85; margin-top: 7px; }
+  .note.root { min-height: 110px; padding-right: 80px; }
+  .root .solfege { font-size: 26px; }
+  .root .badge { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 35px; font-weight: 750; opacity: .65; }
+  .note.is-pressed { transform: translateY(4px); box-shadow: 0 1px 0 #282723, inset 0 0 0 3px currentColor; filter: brightness(1.08); }
+  button:focus-visible, a:focus-visible { outline: 3px solid #282723; outline-offset: 5px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 9px 14px; margin: 22px 0; font-size: 12px; color: #5c584f; }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .legend i { width: 11px; height: 11px; border: 1px solid #28272366; border-radius: 50%; background: var(--color); }
+  .opening { margin-top: 20px; padding: 16px 18px; border: 1px solid #d6d0c4; border-radius: 14px; background: #ffffff70; font-size: 13px; line-height: 1.6; }
+  .opening strong { display: block; margin-bottom: 3px; }
+  .opening p { margin: 5px 0; }
+  .footnote { color: #6a655b; font-size: 11px; line-height: 1.6; margin-top: 17px; }
+  a { color: inherit; text-underline-offset: 3px; }
+  noscript p { background: #fff1c7; padding: 14px; border-radius: 10px; }
+  @media (max-width: 480px) { .notes { grid-template-columns: repeat(2, minmax(0, 1fr)); } .note { min-height: 112px; padding: 15px; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Listen · Compare · Learn</p>
+  <h1>C-major ear trainer</h1>
+  <p class="intro">Hold a button to hear its note. Lift your finger to stop.<br>Start with the C root, then compare each step of the scale.</p>
+  <div class="audio-bar">
+    <button type="button" id="enable">Enable sound</button>
+    <div id="status" role="status" aria-live="polite">Tap Enable sound, then press and hold a note.</div>
+  </div>
+  <noscript><p>JavaScript is not running in this viewer. For working sound buttons, host this HTML and open its web address in Safari.</p></noscript>
+  <p class="section-label">Your reference</p>
+  <button type="button" class="note root" data-midi="60" aria-label="Root C4. Press and hold to play." aria-pressed="false" style="--color:#d65332">
+    <span class="solfege">Root C</span><span class="pitch">C4 · Middle C</span><span class="hint">Press & hold</span><span class="badge" aria-hidden="true">1</span>
+  </button>
+  <p class="section-label">The major scale</p>
+  <div class="notes" aria-label="C major scale">
+    <button type="button" class="note" data-midi="60" aria-label="Do, C4. Press and hold to play." aria-pressed="false" style="--color:#d65332"><span class="solfege">Do</span><span class="pitch">C4 · 1</span><span class="hint">Press & hold</span></button>
+    <button type="button" class="note" data-midi="62" aria-label="Re, D4. Press and hold to play." aria-pressed="false" style="--color:#ee9a29"><span class="solfege">Re</span><span class="pitch">D4 · 2</span><span class="hint">Press & hold</span></button>
+    <button type="button" class="note" data-midi="64" aria-label="Mi, E4. Press and hold to play." aria-pressed="false" style="--color:#eddb36"><span class="solfege">Mi</span><span class="pitch">E4 · 3</span><span class="hint">Press & hold</span></button>
+    <button type="button" class="note" data-midi="65" aria-label="Fa, F4. Press and hold to play." aria-pressed="false" style="--color:#7ca731"><span class="solfege">Fa</span><span class="pitch">F4 · 4</span><span class="hint">Press & hold</span></button>
+    <button type="button" class="note" data-midi="67" aria-label="Sol, G4. Press and hold to play." aria-pressed="false" style="--color:#169dc4"><span class="solfege">Sol</span><span class="pitch">G4 · 5</span><span class="hint">Press & hold</span></button>
+    <button type="button" class="note" data-midi="69" aria-label="La, A4. Press and hold to play." aria-pressed="false" style="--color:#126395;--ink:#fff"><span class="solfege">La</span><span class="pitch">A4 · 6</span><span class="hint">Press & hold</span></button>
+    <button type="button" class="note" data-midi="71" aria-label="Ti, B4. Press and hold to play." aria-pressed="false" style="--color:#bb83ac"><span class="solfege">Ti</span><span class="pitch">B4 · 7</span><span class="hint">Press & hold</span></button>
+    <button type="button" class="note" data-midi="72" aria-label="High Do, C5. Press and hold to play." aria-pressed="false" style="--color:#d65332"><span class="solfege">Do</span><span class="pitch">C5 · 8</span><span class="hint">Press & hold</span></button>
+  </div>
+  <div class="legend" aria-label="Scale color legend">
+    <span><i style="--color:#d65332"></i>Do</span><span><i style="--color:#ee9a29"></i>Re</span><span><i style="--color:#eddb36"></i>Mi</span><span><i style="--color:#7ca731"></i>Fa</span><span><i style="--color:#169dc4"></i>Sol</span><span><i style="--color:#126395"></i>La</span><span><i style="--color:#bb83ac"></i>Ti</span>
+  </div>
+  <aside class="opening">
+    <strong>Opening this on an iPhone or iPad</strong>
+    <p>Files / Quick Look and in-app previews may show the page but block JavaScript or audio. If the buttons do nothing, host this single HTML file on a static website and open its HTTPS address directly in Safari. Downloading it into Files alone may not be enough.</p>
+    <p>In Safari, tap <b>Enable sound</b> once, then hold any note. Check your device volume if you cannot hear it. If sound stops after switching apps, tap Enable sound again.</p>
+  </aside>
+  <p class="footnote">One self-contained file · No external audio, fonts, or libraries · A4 = 440 Hz<br>Absolutely Understand Guitar color order, approximately matched to your reference photo.<br>Mouse: hold the left button. Keyboard: focus a note, then hold Space or Enter.<br>Browser audio uses a user gesture: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices">Web Audio guidance</a>.</p>
+</main>
+<script>
+(() => {
+  'use strict';
+  const buttons = [...document.querySelectorAll('.note')];
+  const status = document.getElementById('status');
+  const enable = document.getElementById('enable');
+  const held = new Map();
+  let context, master, wave;
+  const failure = () => { status.textContent = 'Sound could not start. Tap Enable sound in Safari; check the iPhone note below.'; };
+
+  function getAudio() {
+    if (!context || context.state === 'closed') {
+      const Audio = window.AudioContext || window.webkitAudioContext;
+      if (!Audio) throw new Error('Web Audio unavailable');
+      context = new Audio({ latencyHint: 'interactive' });
+      master = context.createGain();
+      master.gain.value = 0.8;
+      const compressor = context.createDynamicsCompressor();
+      compressor.threshold.value = -12;
+      compressor.knee.value = 12;
+      compressor.ratio.value = 12;
+      compressor.attack.value = 0.003;
+      compressor.release.value = 0.1;
+      master.connect(compressor);
+      compressor.connect(context.destination);
+      // A full but gentle sustained tone: fundamental plus two quiet harmonics.
+      wave = context.createPeriodicWave(new Float32Array(4), new Float32Array([0, 1, 0.18, 0.06]));
+      context.addEventListener('statechange', () => {
+        if (context.state !== 'running') {
+          stopAll();
+          status.textContent = 'Audio paused. Tap Enable sound to resume.';
+        }
+      });
+    }
+    return context;
+  }
+
+  function refresh(button) {
+    const active = [...held.values()].some(item => item.button === button);
+    button.classList.toggle('is-pressed', active);
+    button.setAttribute('aria-pressed', String(active));
+    button.querySelector('.hint').textContent = active ? 'Release to stop' : 'Press & hold';
+  }
+
+  function startVoice(item) {
+    // A delayed iOS resume must never produce a note after the finger is lifted.
+    if (held.get(item.id) !== item || item.osc || context.state !== 'running') return;
+    const now = context.currentTime;
+    const gain = context.createGain();
+    const osc = context.createOscillator();
+    osc.setPeriodicWave(wave);
+    osc.frequency.value = 440 * Math.pow(2, (Number(item.button.dataset.midi) - 69) / 12);
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.5, now + 0.008);
+    osc.connect(gain); gain.connect(master);
+    item.osc = osc; item.gain = gain; item.started = now;
+    osc.start(now);
+    status.textContent = 'Sound enabled · Release to stop.';
+  }
+
+  function begin(button, id) {
+    if (held.has(id)) return;
+    const item = { button, id };
+    held.set(id, item); refresh(button);
+    try {
+      const audio = getAudio();
+      if (audio.state === 'running') startVoice(item);
+      else {
+        status.textContent = 'Starting audio… If silent, tap Enable sound first.';
+        // Invoke synchronously inside the input event, not after an await.
+        audio.resume().then(() => startVoice(item)).catch(() => { end(id); failure(); });
+      }
+    } catch (_) { end(id); failure(); }
+  }
+
+  function end(id) {
+    const item = held.get(id);
+    if (!item) return;
+    held.delete(id); refresh(item.button);
+    if (item.osc) {
+      const now = context.currentTime;
+      const parameter = item.gain.gain;
+      if (context.state !== 'running') {
+        item.gain.disconnect(); item.osc.stop(); item.osc.disconnect();
+      } else {
+        // A 20 ms release removes clicks while remaining perceptually immediate.
+        parameter.cancelScheduledValues(now);
+        parameter.setValueAtTime(0.5 * Math.min(1, Math.max(0, (now - item.started) / 0.008)), now);
+        parameter.linearRampToValueAtTime(0, now + 0.02);
+        item.osc.onended = () => { item.osc.disconnect(); item.gain.disconnect(); };
+        item.osc.stop(now + 0.025);
+      }
+    }
+    if (!held.size) status.textContent = 'Ready · Press and hold any note.';
+  }
+  function stopAll() { [...held.keys()].forEach(end); }
+
+  enable.addEventListener('click', () => {
+    try {
+      const audio = getAudio();
+      // Silent sample started within the click also helps older iOS audio unlock.
+      const silent = audio.createBufferSource();
+      silent.buffer = audio.createBuffer(1, 1, audio.sampleRate);
+      silent.connect(audio.destination); silent.onended = () => silent.disconnect(); silent.start(0);
+      audio.resume().then(() => {
+        status.textContent = audio.state === 'running' ? 'Ready · Press and hold any note.' : 'Tap Enable sound again in Safari.';
+      }).catch(failure);
+    } catch (_) { failure(); }
+  });
+
+  for (const button of buttons) {
+    button.addEventListener('contextmenu', event => event.preventDefault());
+    button.addEventListener('dragstart', event => event.preventDefault());
+    if (window.PointerEvent) {
+      button.addEventListener('pointerdown', event => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        event.preventDefault();
+        button.focus({ preventScroll: true });
+        try { button.setPointerCapture(event.pointerId); } catch (_) {}
+        begin(button, 'pointer:' + event.pointerId);
+      });
+      button.addEventListener('lostpointercapture', event => end('pointer:' + event.pointerId));
+    } else {
+      // Compatibility path for browsers without Pointer Events.
+      button.addEventListener('touchstart', event => {
+        event.preventDefault();
+        for (const touch of event.changedTouches) begin(button, 'touch:' + touch.identifier);
+      }, { passive: false });
+      button.addEventListener('mousedown', event => {
+        if (event.button !== 0) return;
+        event.preventDefault(); button.focus(); begin(button, 'mouse');
+      });
+    }
+    button.addEventListener('keydown', event => {
+      if (event.key !== ' ' && event.key !== 'Enter') return;
+      event.preventDefault();
+      if (!event.repeat) begin(button, 'key:' + event.key);
+    });
+    button.addEventListener('blur', () => {
+      for (const [id, item] of held) if (id.startsWith('key:') && item.button === button) end(id);
+    });
+    // No click-to-toggle: a released pointer must always remain silent.
+    button.addEventListener('click', event => event.preventDefault());
+  }
+  if (window.PointerEvent) {
+    for (const type of ['pointerup', 'pointercancel']) window.addEventListener(type, event => end('pointer:' + event.pointerId));
+    window.addEventListener('pointermove', event => {
+      if (event.pointerType === 'mouse' && event.buttons === 0) end('pointer:' + event.pointerId);
+    });
+  } else {
+    for (const type of ['touchend', 'touchcancel']) window.addEventListener(type, event => {
+      for (const touch of event.changedTouches) end('touch:' + touch.identifier);
+    });
+    window.addEventListener('mouseup', () => end('mouse'));
+  }
+  window.addEventListener('keyup', event => {
+    if (event.key === ' ' || event.key === 'Enter') end('key:' + event.key);
+  });
+  window.addEventListener('blur', stopAll);
+  window.addEventListener('pagehide', stopAll);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stopAll(); });
+})();
+</script>
+</body>
+</html>
